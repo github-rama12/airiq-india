@@ -1,5 +1,5 @@
 ## 🔴 Live Demo
-👉 https://github.com/github-rama12/airiq-india.git
+👉 https://github-rama12.github.io/airiq-india/
 # AirIQ India 🌬️
 ### AI-Powered Urban Air Quality Intelligence Platform
 
@@ -24,7 +24,7 @@ A hackathon prototype addressing India's urban air quality crisis — built for 
 
 ### 1. Clone the repo
 ```bash
-https://github.com/github-rama12/airiq-india.git
+https://github-rama12.github.io/airiq-india/
 ```
 
 ### 2. Add your Anthropic API key
