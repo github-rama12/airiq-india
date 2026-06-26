@@ -1,5 +1,5 @@
 ## 🔴 Live Demo
-👉 https://YOUR_USERNAME.github.io/airiq-india/
+👉 https://github.com/github-rama12/airiq-india.git
 # AirIQ India 🌬️
 ### AI-Powered Urban Air Quality Intelligence Platform
 
