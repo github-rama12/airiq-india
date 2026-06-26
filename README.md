@@ -22,8 +22,7 @@ A hackathon prototype addressing India's urban air quality crisis — built for 
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/YOUR_USERNAME/airiq-india.git
-cd airiq-india
+https://github.com/github-rama12/airiq-india.git
 ```
 
 ### 2. Add your Anthropic API key
