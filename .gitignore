@@ -1,0 +1,16 @@
+# Never commit real API keys
+# Before pushing, make sure src/config.js still has the placeholder
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Node (if you add a proxy server)
+node_modules/
+.env
+.env.local
