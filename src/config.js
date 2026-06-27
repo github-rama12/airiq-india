@@ -1,9 +1,8 @@
 /**
  * AirIQ India — Configuration
- * Uses Groq API (completely free)
- * API key is entered by the user in the browser — never stored in code.
+ * Demo key included for judges/reviewers
  */
 const CONFIG = {
-  GROQ_API_KEY: "", // set at runtime via the key popup
+  GROQ_API_KEY: "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",
   MODEL: "llama-3.1-8b-instant",
 };
