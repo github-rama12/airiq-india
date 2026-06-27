@@ -1,0 +1,129 @@
+/* ── API Key Popup ───────────────────────────────────── */
+.key-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+.key-overlay.hidden { display: none; }
+
+.key-modal {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: 16px;
+  padding: 28px 32px;
+  width: 420px;
+  max-width: 92vw;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+
+.key-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.key-modal-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.key-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.key-input {
+  flex: 1;
+  font-size: 12px;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: monospace;
+  outline: none;
+}
+.key-input:focus { border-color: #0D9488; }
+
+.key-save-btn {
+  font-size: 12px;
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: #0D9488;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.key-save-btn:hover { background: #0B7C72; }
+
+.key-modal-note {
+  font-size: 11px;
+  color: var(--hint);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.5;
+}
+
+.key-error {
+  font-size: 11px;
+  color: #E24B4A;
+  margin-bottom: 8px;
+  display: none;
+}
+.key-error.show { display: block; }
+
+.key-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: #EAF3DE;
+  color: #3B6D11;
+  margin-top: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  .key-badge { background: #173404; color: #C0DD97; }
+}
+
+/* key indicator in nav */
+.key-indicator {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--border);
+  background: none;
+  transition: background 0.15s;
+}
+.key-indicator:hover { background: var(--surface2); }
+.key-indicator .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #E24B4A;
+  flex-shrink: 0;
+}
+.key-indicator .dot.active { background: #639922; }

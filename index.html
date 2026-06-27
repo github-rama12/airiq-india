@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AirIQ India — Urban Air Quality Intelligence Platform</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="src/style.css" />
+  <link rel="stylesheet" href="src/key-popup.css" />
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <div class="logo"><i class="ti ti-wind" aria-hidden="true"></i> AirIQ India</div>
+      <button class="tab active" onclick="showTab(0)"><i class="ti ti-map-2" aria-hidden="true"></i> Live Map</button>
+      <button class="tab" onclick="showTab(1)"><i class="ti ti-brain" aria-hidden="true"></i> Source AI</button>
+      <button class="tab" onclick="showTab(2)"><i class="ti ti-chart-line" aria-hidden="true"></i> Forecast</button>
+      <button class="tab" onclick="showTab(3)"><i class="ti ti-shield-check" aria-hidden="true"></i> Enforcement</button>
+      <button class="tab" onclick="showTab(4)"><i class="ti ti-building-community" aria-hidden="true"></i> Multi-City</button>
+      <button class="tab" onclick="showTab(5)"><i class="ti ti-bell" aria-hidden="true"></i> Citizen Alerts</button>
+      <!-- Key indicator injected here by key-popup.js -->
+    </nav>
+
+    <!-- Panel 0: Live Map -->
+    <div id="p0" class="panel active">
+      <div class="grid4" style="margin-bottom:12px">
+        <div class="mcard"><div class="mlabel">City AQI (live)</div><div class="mval" id="m-aqi">218 <span class="munit">µg/m³</span></div></div>
+        <div class="mcard"><div class="mlabel">PM2.5</div><div class="mval" id="m-pm">142 <span class="munit">µg/m³</span></div></div>
+        <div class="mcard"><div class="mlabel">Active Stations</div><div class="mval">47 <span class="munit">/ 54</span></div></div>
+        <div class="mcard"><div class="mlabel">Alert Zones</div><div class="mval" id="m-alert">12 <span class="munit">wards</span></div></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-grid-dots" aria-hidden="true"></i> Ward-level AQI heatmap — Delhi (24h)</div>
+          <div class="timelabels" id="timelabels"></div>
+          <div id="heatmap"></div>
+          <div class="legend-row" style="margin-top:10px">
+            <div class="legend-item"><span class="legend-dot" style="background:#639922"></span>Good &lt;50</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#EF9F27"></span>Moderate 51–100</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#D85A30"></span>Poor 101–200</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#A32D2D"></span>Severe &gt;200</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-antenna" aria-hidden="true"></i> CAAQMS station feed <span class="live-dot pulse" style="margin-left:4px"></span></div>
+          <div id="station-feed"></div>
+          <div style="margin-top:10px">
+            <div class="sec-title" style="margin-top:8px"><i class="ti ti-cloud" aria-hidden="true"></i> Meteorological conditions</div>
+            <div class="grid2" style="gap:8px;margin-top:6px">
+              <div class="mcard"><div class="mlabel">Wind speed</div><div class="mval">3.2 <span class="munit">km/h</span></div></div>
+              <div class="mcard"><div class="mlabel">Wind direction</div><div class="mval">NW <span class="munit">310°</span></div></div>
+              <div class="mcard"><div class="mlabel">Humidity</div><div class="mval">68 <span class="munit">%</span></div></div>
+              <div class="mcard"><div class="mlabel">Temperature</div><div class="mval">22 <span class="munit">°C</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 1: Source AI -->
+    <div id="p1" class="panel">
+      <div class="grid2">
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-chart-pie" aria-hidden="true"></i> Pollution source attribution — Anand Vihar ward</div>
+          <div style="position:relative;height:210px">
+            <canvas id="sourceChart" role="img" aria-label="Source attribution pie chart"></canvas>
+          </div>
+          <div class="legend-row" style="margin-top:8px">
+            <div class="legend-item"><span class="legend-dot" style="background:#3266ad"></span>Vehicles 38%</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#E24B4A"></span>Construction 27%</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#EF9F27"></span>Industrial 18%</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#63993a"></span>Crop burning 10%</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#888780"></span>Other 7%</div>
+          </div>
+          <div style="margin-top:10px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)">
+            <i class="ti ti-info-circle" aria-hidden="true"></i> Confidence score: <strong>87%</strong> — Based on 14 sensor inputs + Sentinel-2 thermal pass
+          </div>
+        </div>
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-brain" aria-hidden="true"></i> Ask the attribution AI</div>
+          <p class="hint">Select a ward and get AI-generated source analysis with confidence scoring.</p>
+          <select id="ward-select" class="sel">
+            <option>Anand Vihar</option><option>Rohini Sector 5</option><option>Sadar Bazaar</option><option>Okhla Phase II</option><option>Dwarka Sector 10</option>
+          </select>
+          <select id="time-select" class="sel" style="margin-top:6px">
+            <option>Last 6 hours</option><option>Last 24 hours</option><option>Last 7 days</option>
+          </select>
+          <button class="askbtn" onclick="runAttribution()"><i class="ti ti-sparkles" aria-hidden="true"></i> Analyse pollution sources ↗</button>
+          <div class="ai-box" id="attr-result"><span class="thinking">Select a ward and click analyse to generate AI-powered source attribution report.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 2: Forecast -->
+    <div id="p2" class="panel">
+      <div class="grid2">
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-chart-line" aria-hidden="true"></i> 72-hour AQI forecast — ward level</div>
+          <select class="sel" style="margin-bottom:10px">
+            <option>Anand Vihar</option><option>Connaught Place</option><option>Lodhi Road</option><option>Noida Sector 62</option>
+          </select>
+          <div id="forecast-bars"></div>
+          <p class="hint" style="margin-top:10px"><i class="ti ti-info-circle" aria-hidden="true"></i> RMSE vs. persistence baseline: <strong>±18 µg/m³</strong> at 24h horizon</p>
+        </div>
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-settings-2" aria-hidden="true"></i> Dispersion model parameters</div>
+          <div class="slider-row"><span class="slider-label">Wind speed (km/h)</span><input type="range" min="0" max="30" value="3" step="1" oninput="updateForecast()" id="wind-s" /><span class="slider-val" id="wind-v">3</span></div>
+          <div class="slider-row"><span class="slider-label">Temperature (°C)</span><input type="range" min="10" max="42" value="22" step="1" oninput="updateForecast()" id="temp-s" /><span class="slider-val" id="temp-v">22</span></div>
+          <div class="slider-row"><span class="slider-label">Humidity (%)</span><input type="range" min="20" max="100" value="68" step="1" oninput="updateForecast()" id="hum-s" /><span class="slider-val" id="hum-v">68</span></div>
+          <div class="slider-row"><span class="slider-label">Traffic factor</span><input type="range" min="0" max="10" value="6" step="1" oninput="updateForecast()" id="traf-s" /><span class="slider-val" id="traf-v">6</span></div>
+          <button class="askbtn" onclick="runForecast()"><i class="ti ti-sparkles" aria-hidden="true"></i> Generate AI forecast narrative ↗</button>
+          <div class="ai-box" id="forecast-result"><span class="thinking">Adjust parameters and generate an AI narrative for intervention scheduling.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 3: Enforcement -->
+    <div id="p3" class="panel">
+      <div class="grid2">
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Priority enforcement targets</div>
+          <div id="enf-list"></div>
+        </div>
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-robot" aria-hidden="true"></i> AI enforcement intelligence</div>
+          <p class="hint">Generate evidence-backed enforcement action recommendations for municipal teams.</p>
+          <select class="sel" id="enf-select">
+            <option>Okhla Industrial Area</option><option>Wazirpur Cluster</option><option>Anand Vihar Bus Terminal</option><option>Bhatti Mines Construction Zone</option>
+          </select>
+          <button class="askbtn" onclick="runEnforcement()"><i class="ti ti-sparkles" aria-hidden="true"></i> Generate enforcement brief ↗</button>
+          <div class="ai-box" id="enf-result"><span class="thinking">Select a source location to generate a prioritised enforcement action brief.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 4: Multi-City -->
+    <div id="p4" class="panel">
+      <div class="card" style="margin-bottom:12px">
+        <div class="sec-title"><i class="ti ti-building-community" aria-hidden="true"></i> Multi-city AQI comparison — 2024–25</div>
+        <div style="position:relative;height:240px">
+          <canvas id="cityChart" role="img" aria-label="AQI bar chart across Indian metros"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sec-title"><i class="ti ti-trending-down" aria-hidden="true"></i> Intervention effectiveness tracker</div>
+        <div id="city-rows"></div>
+        <button class="askbtn" style="margin-top:10px" onclick="runCityAnalysis()"><i class="ti ti-sparkles" aria-hidden="true"></i> Compare interventions across cities ↗</button>
+        <div class="ai-box" id="city-result"><span class="thinking">Click to get an AI analysis of which pollution control interventions worked best.</span></div>
+      </div>
+    </div>
+
+    <!-- Panel 5: Citizen Alerts -->
+    <div id="p5" class="panel">
+      <div class="grid2">
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-users" aria-hidden="true"></i> Population vulnerability map</div>
+          <div id="vuln-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+          <div style="margin-top:12px">
+            <div class="sec-title"><i class="ti ti-heart" aria-hidden="true"></i> Health risk by ward</div>
+            <div id="health-bars"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sec-title"><i class="ti ti-message-language" aria-hidden="true"></i> Multilingual citizen advisories</div>
+          <p class="hint">Generate personalised advisories in regional languages for vulnerable populations.</p>
+          <select class="sel" id="lang-select">
+            <option value="Hindi">Hindi — Delhi/NCR</option>
+            <option value="Tamil">Tamil — Chennai</option>
+            <option value="Kannada">Kannada — Bengaluru</option>
+            <option value="Bengali">Bengali — Kolkata</option>
+            <option value="Marathi">Marathi — Mumbai/Pune</option>
+          </select>
+          <select class="sel" style="margin-top:6px" id="vuln-select">
+            <option>Elderly residents (65+)</option><option>School children</option><option>Outdoor workers</option><option>Respiratory patients</option>
+          </select>
+          <button class="askbtn" onclick="runCitizenAlert()"><i class="ti ti-sparkles" aria-hidden="true"></i> Generate advisory ↗</button>
+          <div class="ai-box" id="citizen-result"><span class="thinking">Select language and population group to generate a personalised health advisory.</span></div>
+          <div id="existing-alerts" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- .wrap -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script src="src/config.js"></script>
+  <script src="src/key-popup.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
