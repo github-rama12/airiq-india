@@ -22,14 +22,14 @@ const KeyManager = (() => {
             class="key-input"
             id="key-input"
             type="password"
-            placeholder="AIzaSy..."
+            placeholder="AIzaSy... or AQ..."
             autocomplete="off"
             spellcheck="false"
           />
           <button class="key-save-btn" onclick="KeyManager.save()">Save</button>
         </div>
         <div class="key-error" id="key-error">
-          ⚠️ Please enter a valid key starting with AIza
+          ⚠️ Please enter a valid Gemini key
         </div>
         <div class="key-modal-note">
           <i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0;margin-top:1px"></i>
@@ -77,7 +77,7 @@ const KeyManager = (() => {
     const key = input.value.trim();
     const errEl = document.getElementById("key-error");
 
-    if (!key.startsWith("AIza")) {
+    if (!key.startsWith("AIza") && !key.startsWith("AQ")) {
       errEl.classList.add("show");
       input.focus();
       return;
