@@ -82,9 +82,7 @@ Browser
 ---
 
 ## Team
-- Ram — Full Stack & AI Integration
-
-Built for Smart Cities Hackathon 2025
+- GOLDEN EAGLES ALPHA
 
 ---
 
