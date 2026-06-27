@@ -22,7 +22,7 @@ const KeyManager = (() => {
             class="key-input"
             id="key-input"
             type="password"
-            placeholder="AIzaSy... or AQ..."
+            placeholder="gsk_..."
             autocomplete="off"
             spellcheck="false"
           />
@@ -34,8 +34,8 @@ const KeyManager = (() => {
         <div class="key-modal-note">
           <i class="ti ti-info-circle" style="font-size:14px;flex-shrink:0;margin-top:1px"></i>
           Get a free key at
-          <a href="https://console.anthropic.com" target="_blank" style="color:#0D9488;margin-left:3px">
-            console.anthropic.com
+          <a href="https://console.groq.com" target="_blank" style="color:#0D9488;margin-left:3px">
+            console.groq.com
           </a>
           &nbsp;→ API Keys → Create Key
         </div>
@@ -77,14 +77,14 @@ const KeyManager = (() => {
     const key = input.value.trim();
     const errEl = document.getElementById("key-error");
 
-    if (!key.startsWith("AIza") && !key.startsWith("AQ")) {
+    if (!key.startsWith("gsk_")) {
       errEl.classList.add("show");
       input.focus();
       return;
     }
 
     errEl.classList.remove("show");
-    CONFIG.GEMINI_API_KEY = key;
+    CONFIG.GROQ_API_KEY = key;
     input.value = "";
 
     // Update nav indicator
