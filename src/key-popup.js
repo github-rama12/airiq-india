@@ -95,10 +95,16 @@ const KeyManager = (() => {
   }
 
   // ── Init ─────────────────────────────────────────────
-  function init() {
+function init() {
     injectHTML();
-    // Always show on load — key is never persisted
-    show();
+    // Only show popup if no key in config
+    if (!CONFIG.GROQ_API_KEY || CONFIG.GROQ_API_KEY.trim() === "") {
+      show();
+    } else {
+      CONFIG.GROQ_API_KEY = CONFIG.GROQ_API_KEY;
+      document.getElementById("key-dot").classList.add("active");
+      document.getElementById("key-label").textContent = "API Key ✓";
+    }
   }
 
   return { init, show, hide, save };
