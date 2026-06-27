@@ -332,7 +332,7 @@ async function callClaude(prompt, targetId) {
   const el = document.getElementById(targetId);
 
   // Check key is set — if not, open popup and stop
-  if (!CONFIG.GEMINI_API_KEY || CONFIG.GEMINI_API_KEY.trim() === "") {
+  if (!CONFIG.GROQ_API_KEY || CONFIG.GROQ_API_KEY.trim() === "") {
     el.innerHTML = '<span class="thinking">⚠️ No API key entered. Click "Add API Key" in the top-right to add your key.</span>';
     KeyManager.show();
     return;
@@ -341,29 +341,33 @@ async function callClaude(prompt, targetId) {
   el.innerHTML = '<span class="thinking">Generating AI analysis…</span>';
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${CONFIG.MODEL}:generateContent?key=${CONFIG.GEMINI_API_KEY}`;
-
-    const res = await fetch(url, {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${CONFIG.GROQ_API_KEY}`,
+      },
       body: JSON.stringify({
-        systemInstruction: {
-          parts: [{
-            text:
+        model: CONFIG.MODEL,
+        messages: [
+          {
+            role: "system",
+            content:
               "You are an expert air quality analyst for Indian cities. " +
               "Provide concise, actionable intelligence in 3–5 sentences. " +
               "Include specific numbers, confidence scores where relevant, " +
               "and practical recommendations for city administrators. " +
               "Be direct and data-driven.",
-          }],
-        },
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
+          },
+          { role: "user", content: prompt },
+        ],
+        max_tokens: 300,
       }),
     });
 
     const d = await res.json();
     if (d.error) throw new Error(d.error.message);
-    const text = d.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
+    const text = d.choices?.[0]?.message?.content || "No response received.";
     el.textContent = text;
   } catch (err) {
     el.innerHTML =
