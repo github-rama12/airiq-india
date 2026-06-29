@@ -82,7 +82,7 @@ Browser
 ---
 
 ## Team
-- GOLDEN EAGLES ALPHA
+- THUGS OF RAGHU
 
 ---
 
