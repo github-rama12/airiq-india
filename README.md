@@ -1,4 +1,4 @@
-# AirIQ India 🌬️
+# AirIQ India 
 ### AI-Powered Urban Air Quality Intelligence Platform
 
 ## 🔴 Live Demo
